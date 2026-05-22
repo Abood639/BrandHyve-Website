@@ -1,4 +1,7 @@
-document.addEventListener('astro:page-load', () => {
+function initAll() {
+  if (window.__brandhyve_initialized) return;
+  window.__brandhyve_initialized = true;
+
   initCursorSpotlights();
   initCardTilt();
   initLiveDashboard();
@@ -8,6 +11,17 @@ document.addEventListener('astro:page-load', () => {
   initFaqAccordions();
   initContactForm();
   initIntegrationsScroll();
+}
+
+if (document.readyState === 'interactive' || document.readyState === 'complete') {
+  initAll();
+} else {
+  document.addEventListener('DOMContentLoaded', initAll);
+}
+
+document.addEventListener('astro:page-load', () => {
+  window.__brandhyve_initialized = false;
+  initAll();
 });
 
 // 1. Cursor-Tracking Gradient Spotlights
