@@ -505,7 +505,10 @@ function initIntegrationsScroll() {
       const ty = vy * displacement + (normalizedDistance * 40);
 
       // Lens blur and opacity fade
-      const blurVal = progressAbs * 7; 
+      let blurVal = 0;
+      if (progressAbs > 0.1) {
+        blurVal = (progressAbs - 0.1) * 8.2;
+      }
       
       let opacityVal = 1;
       if (progressAbs > 0.15) {
@@ -517,7 +520,11 @@ function initIntegrationsScroll() {
 
       // Apply hardware-accelerated 3D transforms
       bubble.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scaleVal})`;
-      bubble.style.filter = `blur(${blurVal}px)`;
+      if (blurVal === 0) {
+        bubble.style.filter = 'none';
+      } else {
+        bubble.style.filter = `blur(${blurVal}px)`;
+      }
       bubble.style.opacity = opacityVal;
     });
   }
