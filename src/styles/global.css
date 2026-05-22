@@ -611,61 +611,135 @@ p, span, li, a, h1, h2, h3, h4 {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 380px;
+  min-height: 600px;
   position: relative;
   width: 100%;
 }
 
 .integrations-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 16px 20px;
-  max-width: 1100px;
-  margin: 0 auto;
   position: relative;
+  width: 100%;
+  max-width: 1100px;
+  height: 580px;
+  margin: 0 auto;
   z-index: 2;
   perspective: 1000px;
+  transition: transform 0.3s ease;
 }
 
 .integration-bubble {
-  display: inline-flex;
+  position: absolute;
+  display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 20px;
+  justify-content: center;
   background: rgba(15, 15, 17, 0.65);
-  border: 1px solid var(--hairline);
-  border-radius: var(--rounded-pill);
-  color: var(--ink);
-  font-weight: 500;
-  font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, filter 0.1s ease, opacity 0.1s ease;
   will-change: transform, opacity, filter;
   cursor: pointer;
+  transform-origin: center center;
 }
 
 .integration-bubble:hover {
   background: rgba(22, 22, 27, 0.95);
-  border-color: var(--accent-yellow);
-  box-shadow: 0 0 15px rgba(255, 219, 21, 0.25);
-  transform: translateY(-2px) scale(1.05) !important;
+  border-color: var(--brand-color, var(--accent-yellow));
+  box-shadow: 0 0 20px var(--brand-color, rgba(255, 219, 21, 0.25));
+  transform: translateY(-2px) scale(1.08) !important;
+  z-index: 10;
 }
 
 .integration-icon {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
-  font-size: 14px;
+  width: 100%;
+  height: 100%;
+  color: var(--brand-color, var(--ink));
   font-weight: bold;
+  line-height: 1;
 }
 
 .integration-icon svg {
   display: block;
+  fill: currentColor;
+  stroke: currentColor;
+}
+.integration-icon svg[fill="none"] {
+  fill: none;
+}
+
+/* Bubble Size Tiers */
+.bubble-lg {
+  width: 80px;
+  height: 80px;
+}
+.bubble-lg .integration-icon {
+  font-size: 32px;
+}
+.bubble-lg svg {
+  width: 36px;
+  height: 36px;
+}
+
+.bubble-md {
+  width: 62px;
+  height: 62px;
+}
+.bubble-md .integration-icon {
+  font-size: 24px;
+}
+.bubble-md svg {
+  width: 26px;
+  height: 26px;
+}
+
+.bubble-sm {
+  width: 48px;
+  height: 48px;
+}
+.bubble-sm .integration-icon {
+  font-size: 18px;
+}
+.bubble-sm svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Responsiveness via proportional scaling */
+@media (max-width: 1024px) {
+  .integrations-grid-wrapper {
+    min-height: 480px;
+  }
+  .integrations-cloud {
+    height: 464px;
+    transform: scale(0.8);
+    transform-origin: center center;
+  }
+}
+
+@media (max-width: 768px) {
+  .integrations-grid-wrapper {
+    min-height: 360px;
+  }
+  .integrations-cloud {
+    height: 348px;
+    transform: scale(0.6);
+    transform-origin: center center;
+  }
+}
+
+@media (max-width: 480px) {
+  .integrations-grid-wrapper {
+    min-height: 260px;
+  }
+  .integrations-cloud {
+    height: 243px;
+    transform: scale(0.42);
+    transform-origin: center center;
+  }
 }
 
 
