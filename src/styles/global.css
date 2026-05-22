@@ -447,10 +447,21 @@ a:hover {
 
 .honeycomb-shape {
   position: absolute;
-  color: var(--accent-yellow);
-  opacity: 0.15;
-  filter: drop-shadow(0 0 10px rgba(255, 219, 21, 0.45));
+  color: #fffde0; /* White-hot neon core */
+  opacity: 0.35;
+  filter: drop-shadow(0 0 2px var(--accent-yellow))
+          drop-shadow(0 0 6px var(--accent-yellow))
+          drop-shadow(0 0 15px rgba(255, 219, 21, 0.6))
+          drop-shadow(0 0 30px rgba(255, 219, 21, 0.3));
   will-change: transform, opacity;
+}
+
+.honeycomb-shape path {
+  stroke: #ffffff; /* White-hot core of the neon tube */
+  stroke-width: 4px; /* Realistic physical neon tube thickness */
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke; /* Ensure thickness remains consistent across viewport scales */
 }
 
 .shape-1 {
@@ -458,7 +469,7 @@ a:hover {
   left: -50px;
   width: 320px;
   height: 320px;
-  animation: honeycombFloatOne 30s infinite ease-in-out alternate;
+  animation: honeycombFloatOne 30s infinite ease-in-out alternate, neonFlickerOne 12s infinite linear;
 }
 
 .shape-2 {
@@ -466,7 +477,7 @@ a:hover {
   right: -80px;
   width: 380px;
   height: 380px;
-  animation: honeycombFloatTwo 40s infinite ease-in-out alternate;
+  animation: honeycombFloatTwo 40s infinite ease-in-out alternate, neonFlickerTwo 15s infinite linear;
 }
 
 .shape-3 {
@@ -474,37 +485,101 @@ a:hover {
   left: 30%;
   width: 250px;
   height: 250px;
-  animation: honeycombFloatOne 25s infinite ease-in-out alternate;
+  animation: honeycombFloatOne 25s infinite ease-in-out alternate, neonFlickerThree 10s infinite linear;
   animation-delay: -7s;
 }
 
 @keyframes honeycombFloatOne {
   0% {
     transform: translate(0, 0) rotate(0deg) scale(1);
-    opacity: 0.12;
   }
   50% {
     transform: translate(30px, -40px) rotate(15deg) scale(1.08);
-    opacity: 0.22;
   }
   100% {
     transform: translate(0, 0) rotate(0deg) scale(1);
-    opacity: 0.12;
   }
 }
 
 @keyframes honeycombFloatTwo {
   0% {
     transform: translate(0, 0) rotate(0deg) scale(1);
-    opacity: 0.14;
   }
   50% {
     transform: translate(-40px, 30px) rotate(-12deg) scale(0.95);
-    opacity: 0.25;
   }
   100% {
     transform: translate(0, 0) rotate(0deg) scale(1);
-    opacity: 0.14;
+  }
+}
+
+/* Organic flicker animations simulating power voltage hums */
+@keyframes neonFlickerOne {
+  0%, 19%, 21%, 23%, 25%, 39.9%, 40.1%, 45%, 45.2%, 46%, 60%, 60.2%, 63%, 89%, 91%, 100% {
+    opacity: 0.35;
+    filter: drop-shadow(0 0 2px var(--accent-yellow))
+            drop-shadow(0 0 6px var(--accent-yellow))
+            drop-shadow(0 0 15px rgba(255, 219, 21, 0.6))
+            drop-shadow(0 0 30px rgba(255, 219, 21, 0.3));
+  }
+  20%, 24%, 40%, 45.1%, 60.1%, 90% {
+    opacity: 0.15;
+    filter: drop-shadow(0 0 1px var(--accent-yellow))
+            drop-shadow(0 0 3px var(--accent-yellow))
+            drop-shadow(0 0 8px rgba(255, 219, 21, 0.4));
+  }
+  22%, 42%, 62% {
+    opacity: 0.45;
+    filter: drop-shadow(0 0 3px var(--accent-yellow))
+            drop-shadow(0 0 10px var(--accent-yellow))
+            drop-shadow(0 0 25px rgba(255, 219, 21, 0.8))
+            drop-shadow(0 0 40px rgba(255, 219, 21, 0.5));
+  }
+}
+
+@keyframes neonFlickerTwo {
+  0%, 29%, 31%, 33%, 35%, 49.9%, 50.1%, 55%, 55.2%, 56%, 70%, 70.2%, 73%, 79%, 81%, 100% {
+    opacity: 0.38;
+    filter: drop-shadow(0 0 2px var(--accent-yellow))
+            drop-shadow(0 0 6px var(--accent-yellow))
+            drop-shadow(0 0 15px rgba(255, 219, 21, 0.6))
+            drop-shadow(0 0 30px rgba(255, 219, 21, 0.3));
+  }
+  30%, 34%, 50%, 55.1%, 70.1%, 80% {
+    opacity: 0.12;
+    filter: drop-shadow(0 0 1px var(--accent-yellow))
+            drop-shadow(0 0 3px var(--accent-yellow))
+            drop-shadow(0 0 8px rgba(255, 219, 21, 0.4));
+  }
+  32%, 52%, 72% {
+    opacity: 0.48;
+    filter: drop-shadow(0 0 3px var(--accent-yellow))
+            drop-shadow(0 0 10px var(--accent-yellow))
+            drop-shadow(0 0 25px rgba(255, 219, 21, 0.8))
+            drop-shadow(0 0 40px rgba(255, 219, 21, 0.5));
+  }
+}
+
+@keyframes neonFlickerThree {
+  0%, 9.9%, 10.1%, 15%, 15.2%, 16%, 30%, 30.2%, 33%, 59%, 61%, 100% {
+    opacity: 0.32;
+    filter: drop-shadow(0 0 2px var(--accent-yellow))
+            drop-shadow(0 0 6px var(--accent-yellow))
+            drop-shadow(0 0 15px rgba(255, 219, 21, 0.6))
+            drop-shadow(0 0 30px rgba(255, 219, 21, 0.3));
+  }
+  10%, 15.1%, 30.1%, 60% {
+    opacity: 0.10;
+    filter: drop-shadow(0 0 1px var(--accent-yellow))
+            drop-shadow(0 0 3px var(--accent-yellow))
+            drop-shadow(0 0 8px rgba(255, 219, 21, 0.3));
+  }
+  12%, 32%, 62% {
+    opacity: 0.42;
+    filter: drop-shadow(0 0 3px var(--accent-yellow))
+            drop-shadow(0 0 10px var(--accent-yellow))
+            drop-shadow(0 0 25px rgba(255, 219, 21, 0.7))
+            drop-shadow(0 0 40px rgba(255, 219, 21, 0.4));
   }
 }
 
