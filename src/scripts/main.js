@@ -7,6 +7,7 @@ document.addEventListener('astro:page-load', () => {
   initScrollStats();
   initFaqAccordions();
   initContactForm();
+  initIntegrationsScroll();
 });
 
 // 1. Cursor-Tracking Gradient Spotlights
@@ -453,5 +454,80 @@ function initContactForm() {
       form.classList.remove('hidden');
     });
   }
+}
+
+// 9. Integration Logos Scroll Physics Animation
+function initIntegrationsScroll() {
+  const container = document.getElementById('integrations-cloud');
+  const section = document.getElementById('integrations');
+  if (!container || !section) return;
+
+  const bubbles = container.querySelectorAll('.integration-bubble');
+  let viewportHeight = window.innerHeight;
+  let isMobile = window.innerWidth < 768;
+
+  window.addEventListener('resize', () => {
+    viewportHeight = window.innerHeight;
+    isMobile = window.innerWidth < 768;
+  });
+
+  function updatePositions() {
+    const rect = section.getBoundingClientRect();
+
+    // Skip calculations if section is completely out of view
+    if (rect.top > viewportHeight || rect.bottom < 0) {
+      return;
+    }
+
+    // Find section and viewport vertical center positions
+    const sectionCenter = rect.top + rect.height / 2;
+    const viewportCenter = viewportHeight / 2;
+    const distanceFromCenter = sectionCenter - viewportCenter;
+
+    // Normalize distance relative to viewport range
+    const maxDistance = viewportHeight * 0.75;
+    const normalizedDistance = Math.min(Math.max(distanceFromCenter / maxDistance, -1), 1);
+    const progressAbs = Math.abs(normalizedDistance);
+
+    bubbles.forEach(bubble => {
+      // Fetch movement velocity vectors from DOM attributes
+      const vx = parseFloat(bubble.dataset.vx || 0);
+      const vy = parseFloat(bubble.dataset.vy || 0);
+
+      // Scroll progress mapping: exponential curve for a bouncy eject feel
+      const displacement = progressAbs * progressAbs * 130; 
+
+      // Apply horizontal damping on mobile to avoid page overflow
+      const scaleFactorX = isMobile ? 0.35 : 1.0;
+      const tx = vx * displacement * scaleFactorX;
+      
+      // Vertical movement slides slightly with scroll direction
+      const ty = vy * displacement + (normalizedDistance * 40);
+
+      // Lens blur and opacity fade
+      const blurVal = progressAbs * 7; 
+      
+      let opacityVal = 1;
+      if (progressAbs > 0.15) {
+        opacityVal = Math.max(0, 1 - (progressAbs - 0.15) / 0.85);
+      }
+
+      // Bubble scaling factor
+      const scaleVal = Math.max(0.68, 1 - progressAbs * 0.32);
+
+      // Apply hardware-accelerated 3D transforms
+      bubble.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scaleVal})`;
+      bubble.style.filter = `blur(${blurVal}px)`;
+      bubble.style.opacity = opacityVal;
+    });
+  }
+
+  // Passive listener for high-performance scroll handling
+  window.addEventListener('scroll', () => {
+    window.requestAnimationFrame(updatePositions);
+  }, { passive: true });
+
+  // Run initial state calculation
+  updatePositions();
 }
 
